@@ -3,7 +3,7 @@ import { pool } from '../config/dbConfig.js'
 import { generateToken } from '../middlewares/authMiddleware.js'
 
 const comparePassword = async (email, password) => {
-  const { rows } = await pool.query('SELECT * FROM employee WHERE email = $1', [email])
+  const { rows } = await pool.query('SELECT * FROM employees WHERE email = $1', [email])
   const employee = rows[0]
   if ( !employee ) return false
   return bcrypt.compare(password, employee?.password_hash)
@@ -18,7 +18,7 @@ const loginController = async (req, res) => {
       res.status(401).json({ error: 'Invalid credentials.' })
     }
 
-    const {rows} = await pool.query('SELECT * FROM employee WHERE email = $1', [email])
+    const {rows} = await pool.query('SELECT * FROM employees WHERE email = $1', [email])
     const employee = rows[0]
     const token = generateToken(employee.id)
 

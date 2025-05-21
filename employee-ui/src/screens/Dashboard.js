@@ -14,7 +14,10 @@ function Dashboard() {
   useEffect(() => {
       axios.get(allEmployeesEndpoint, {
         headers: { Authorization: `Bearer ${user?.token}` }
-      }).then(res => setEmployees(res.data)).catch(err => console.log(err))
+      }).then(res => setEmployees(res.data)).catch(err => {
+        toast.error('Please logout and login again!')
+        console.log(err)
+      })
   }, [])
 
   const handleFetchSubordinates = async () => {

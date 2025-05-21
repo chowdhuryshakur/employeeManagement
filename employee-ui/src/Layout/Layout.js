@@ -22,7 +22,7 @@ const Layout = ({children}) => {
             setUser(res.data)
             localStorage.setItem('user', JSON.stringify(res.data))
             toggleModal()
-            navigate('/')
+            window.location.href='/'
         }).catch(error => {
             console.log(error)
             toast.error(error.response.data.error)

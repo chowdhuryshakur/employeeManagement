@@ -2,7 +2,7 @@ import { pool } from '../config/dbConfig.js'
 
 const allEmployees = async (req, res) => {
    try {
-    const {rows} = await pool.query('SELECT * FROM employee')
+    const {rows} = await pool.query('SELECT * FROM employees')
     if (rows.length > 1) {
         res.status(200).json(rows)
     }
@@ -19,13 +19,13 @@ const getSubordinateEmployees = async (req, res) => {
     const {rows} = await pool.query(`
         WITH RECURSIVE subordinates AS (
             SELECT id, employee_name, email, designation, manager_id
-            FROM employee
+            FROM employees
             WHERE id = $1
             
             UNION
             
             SELECT e.id, e.employee_name, e.email, e.designation, e.manager_id
-            FROM employee e
+            FROM employees e
             INNER JOIN subordinates s ON e.manager_id = s.id
         )
         SELECT * FROM subordinates WHERE id != $1;

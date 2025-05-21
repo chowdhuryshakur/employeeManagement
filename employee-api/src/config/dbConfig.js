@@ -23,7 +23,7 @@ async function dbInitializer() {
         
         // Create employee table if not exists
         await client.query(`
-            CREATE TABLE IF NOT EXISTS employee (
+            CREATE TABLE IF NOT EXISTS employees (
                 id SERIAL PRIMARY KEY,
                 employee_name VARCHAR(100) NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,
@@ -36,13 +36,13 @@ async function dbInitializer() {
         `);
 
         // Check if table already has data
-        const { rows } = await client.query('SELECT COUNT(*) FROM employee');
+        const { rows } = await client.query('SELECT COUNT(*) FROM employees');
         const rowCount = parseInt(rows[0].count, 10);
 
         if (rowCount === 0) {
             const hashedPassword = await bcrypt.hash('Pass@123', saltRounds)
             await client.query(`
-                INSERT INTO employee (employee_name, email, password_hash, designation, manager_id)
+                INSERT INTO employees (employee_name, email, password_hash, designation, manager_id)
                 VALUES 
                     ('John Doe', 'john.doe@company.com', $1, 'CEO', NULL),
                     ('Jane Smith', 'jane.smith@company.com', $1, 'CTO', 1),
@@ -52,7 +52,7 @@ async function dbInitializer() {
                     ('Emily Davis', 'emily.davis@company.com', $1, 'HR Manager', 1)
             `, [hashedPassword]);
 
-            console.log("Initial employee data inserted successfully!");
+            console.log("Initial employees data inserted successfully!");
         }
 
         console.log("Database initialized successfully!");
