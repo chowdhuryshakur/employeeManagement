@@ -1,4 +1,26 @@
 
+# Scaling Considerations
+
+### Database Optimization: 
+- Add indexes on manager_id and designation columns
+- Consider using a graph database for complex hierarchies 
+
+### API Performance:
+- Implement Redis caching for frequent queries
+- Add pagination to large result sets
+- Use connection pooling for database connections
+
+### Load Handling:
+- Implement rate limiting
+- Use a load balancer for horizontal scaling
+- Consider serverless architecture for burst traffic
+
+### Monitoring:
+- Structured JSON logging with Winston
+- Prometheus for metrics collection
+- Distributed tracing with Jaeger
+
+
 # Deployment Instructions
 
 #### 1. Requirements:
@@ -59,23 +81,19 @@ npm start
 - Frontend UI: http://localhost:3000
 
 
-# Scaling Considerations
+# Unit Testing
+#### Test Setup
+- We can use Jest as our test runner with Supertest for API testing.
 
-### Database Optimization: 
-- Add indexes on manager_id and designation columns
-- Consider using a graph database for complex hierarchies 
+#### Running Tests
+```bash
+npm test        # Run all tests
+npm test:cov   # Run tests with coverage report
+```
 
-### API Performance:
-- Implement Redis caching for frequent queries
-- Add pagination to large result sets
-- Use connection pooling for database connections
-
-### Load Handling:
-- Implement rate limiting
-- Use a load balancer for horizontal scaling
-- Consider serverless architecture for burst traffic
-
-### Monitoring:
-- Structured JSON logging with Winston
-- Prometheus for metrics collection
-- Distributed tracing with Jaeger
+#### Best Practices
+- Isolate tests: Each test should work independently
+- Mock dependencies: Never hit real database in unit tests
+- Clean up: Reset mocks after each test
+- Test edge cases: Include failure scenarios
+- Keep tests fast: Avoid complex setups
